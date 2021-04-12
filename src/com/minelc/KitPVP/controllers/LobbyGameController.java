@@ -182,7 +182,8 @@ public class LobbyGameController {
 			
 			objGame.setDisplaySlot(DisplaySlot.SIDEBAR);
 			
-			objGame.setDisplayName(ChatColor.GOLD+""+ChatColor.BOLD+"KitPVP");
+			// objGame.setDisplayName(ChatColor.GOLD+""+ChatColor.BOLD+"KitPVP");
+			objGame.setDisplayName(ChatColor.RED+""+ChatColor.BOLD+"KitPvP");
 			
 			//LCoins
 			objGame.getScore("            ").setScore(15);
@@ -204,13 +205,13 @@ public class LobbyGameController {
 			objGame.getScore(ChatColor.translateAlternateColorCodes('&', "&eplay.minelc.net")).setScore(1);
 
 		}
-		 TEAMS.get("LCoins"+Online.getName()).setPrefix(ChatColor.YELLOW+""+jugOnline.getLcoins());
+		 TEAMS.get("LCoins"+Online.getName()).setPrefix(ChatColor.GOLD+""+jugOnline.getLcoins() + " ⛁");
 		TEAMS.get("kills"+Online.getName()).setSuffix(ChatColor.GREEN+" "+jugOnline.getKitPVP_Stats_kills());
 		TEAMS.get("jugadores"+Online.getName()).setSuffix(ChatColor.GREEN+" "+ Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers());
 
 		TEAMS.get("muertes"+Online.getName()).setSuffix(ChatColor.GREEN+" "+jugOnline.getKitPVP_Stats_deaths());
 		TEAMS.get("kdr"+Online.getName()).setSuffix(ChatColor.GREEN+" "+jugOnline.getKitPVP_Stats_kdr());
-		TEAMS.get("nivel"+Online.getName()).setSuffix(ChatColor.GRAY+" "+ (jugOnline.getKitPVP_Stats_Level()+ 0));
+		TEAMS.get("nivel"+Online.getName()).setSuffix(ChatColor.GRAY+" "+ (jugOnline.getKitPVP_Stats_Level()));
 
 		TEAMS.get("bar"+Online.getName()).setSuffix(getProgreso(jugOnline));
 

@@ -23,10 +23,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.event.entity.PlayerDeathEvent;
-import org.bukkit.event.inventory.InventoryAction;
-import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.inventory.*;
 import org.bukkit.event.player.*;
 import org.bukkit.event.player.PlayerLoginEvent.Result;
 import org.bukkit.inventory.ItemStack;
@@ -543,9 +540,18 @@ public class PlayerListener implements Listener {
 								int itemdata = Integer.parseInt(id.split(":")[1]);
 
 								item = new ItemStack(Material.getMaterial(itemid), Integer.parseInt(cantidad), (short) itemdata);
+								ItemMeta itemMeta = item.getItemMeta();
+								ArrayList<String> lore = new ArrayList<>();
+								lore.add(ChatColor.AQUA + "Item De Tienda");
+								itemMeta.setLore(lore);
+								item.setItemMeta(itemMeta);
 							} else {
 								item = new ItemStack(Material.getMaterial(id), Integer.parseInt(cantidad));
-
+								ItemMeta itemMeta = item.getItemMeta();
+								ArrayList<String> lore = new ArrayList<>();
+								lore.add(ChatColor.AQUA + "Item De Tienda");
+								itemMeta.setLore(lore);
+								item.setItemMeta(itemMeta);
 							}
 							removeBalance(jug, price);
 							//agregar aqui.
@@ -1011,16 +1017,12 @@ public boolean repararEspada(Player p, int price) {
 	
 	@EventHandler(priority=EventPriority.HIGHEST)
 	public void onInvClick(InventoryClickEvent e) {
-		
 		Player p = (Player) e.getWhoClicked();
 		if(p.getOpenInventory().getType() != InventoryType.ENDER_CHEST) return;
 		ItemStack item = new ItemStack(Material.getMaterial(373), 6 , (short) 16421);
-		if(e.getCurrentItem().equals(item))
-			e.setCancelled(true);
+		if(e.getCurrentItem().equals(item)) e.setCancelled(true);
 
-		if(e.getAction() == InventoryAction.HOTBAR_SWAP || e.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD) 
-			e.setCancelled(true);
-
+		if(e.getAction() == InventoryAction.HOTBAR_SWAP || e.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD) e.setCancelled(true);
 	}
 	
 
@@ -1221,5 +1223,78 @@ public boolean repararEspada(Player p, int price) {
     	jug.addLcoins(x);
     	Database.savePlayerCoins(jug);
     }
+
+	@EventHandler
+	public final void onChestDrag(InventoryDragEvent e){
+		Player player = (Player) e.getWhoClicked();
+
+		if (e.getInventory().equals(player.getEnderChest())) {
+			if (e.getOldCursor().getItemMeta() == null) {
+				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda. 1:1");
+				e.setCancelled(true);
+			} else if (e.getOldCursor().getItemMeta().getLore() == null) {
+				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda. 1:2");
+				e.setCancelled(true);
+			} else if (e.getOldCursor().getItemMeta().getLore().isEmpty()) {
+				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda. 1:3");
+				e.setCancelled(true);
+			}
+		}
+	}
+
+	@EventHandler
+	public final void onItemMove(InventoryClickEvent e){
+		if (e == null) return;
+		final Player player = (Player) e.getWhoClicked();
+		if (e.getInventory() == null) {
+			return;
+		}
+		if (e.getInventory().equals(player.getEnderChest())) {
+			if (e.getCurrentItem() == null) {
+				return;
+			}
+			if (e.getCurrentItem().getItemMeta() == null) return;
+			/* if (e.getCurrentItem().getItemMeta() == null) {
+				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda. 2:1");
+				e.setCancelled(true);
+			} else */ if (e.getCurrentItem().getItemMeta().getLore() == null) {
+				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda. 2:2");
+				e.setCancelled(true);
+			} else  if (e.getCurrentItem().getItemMeta().getLore().isEmpty()) {
+				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda. 2:3");
+				e.setCancelled(true);
+			}
+		}
+
+		/* if (e.getInventory().equals(player.getEnderChest())){
+			if(e.getClick().equals(ClickType.NUMBER_KEY)) {
+				if (e.getWhoClicked().getInventory().getItem(e.getHotbarButton()) != null){
+					ItemStack itemMoved = e.getWhoClicked().getInventory().getItem(e.getHotbarButton());
+
+					if (itemMoved.getItemMeta().getLore().isEmpty()) {
+						player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda.");
+						e.setCancelled(true);
+						return;
+					}
+
+					/* if (!itemMoved.getItemMeta().getLore().contains("Item De Tienda")){
+						player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda.");
+						e.setCancelled(true);
+					} // hasta aca iba un ¨/
+				}
+			}
+
+			if(e.getAction().equals(InventoryAction.MOVE_TO_OTHER_INVENTORY) && e.getCurrentItem().getItemMeta().getLore().isEmpty()){
+				e.setCancelled(true);
+				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda.");
+				return;
+			}
+
+			if (e.getInventory().equals(player.getEnderChest()) && e.getCursor().getItemMeta().getLore().isEmpty()){
+				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda.");
+				e.setCancelled(true);
+			}
+		} */
+	}
 	
 }
