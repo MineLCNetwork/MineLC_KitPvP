@@ -1,0 +1,22 @@
+#  minPercentPlayers: 50	//The percentage of a full lobby, before players in queue are teleported and before a game will start.
+#  preGameTimer: 20			//The countdown time before the game starts once the minimum number of players are in the game.
+#  resetPreGameTimerOnJoin: true	//If set to true, the pregame timer will reset whenver a new player joins a game.
+#  resetPreGameTimerThreshold: 80	//This is the threshold based on the percentage of players in a game. If the number of players in the game is higher than the threshold, the timer will not restart. 
+#  timeAfterGame: 10	//This is the amount of time after the end of a game, before the game shutsdown/restarts.
+#  maxMapSize: 200		//This is the maximum square size of the map. 
+points:
+  pointsPerKill: 1
+  vipMultiplier: 2
+  svipMultiplier: 3
+  eliteMultiplier: 4
+  rubyMultiplier: 5
+spawn:
+  world: kitpvpmapa
+  x: 0
+  y: 166
+  z: 28
+  yaw: 270
+  pitch: 0
+Config:
+    ip-bungee: "142.44.142.214"
+    ip-whitelist: true

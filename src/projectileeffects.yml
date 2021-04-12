@@ -1,0 +1,24 @@
+# The first value is the particle effect.
+# The second value is the cost to unlock that particle effect.
+
+effects:
+- portal 0
+- flame 0
+- smoke 0
+- critical 0
+- slime 0
+- snow 0
+- magic 0
+- happy 0
+- angry 0
+- potion 0
+- poison 0
+- lava_drip 0
+- redstone 0
+- sparks 0
+- clouds 0
+- lava 0
+- water 0
+- alphabet 0
+- music 0
+- heart 0

@@ -1,0 +1,39 @@
+name: MineLC_KitPVP
+main: com.minelc.KitPVP.KitPVPMain
+version: 1.0
+depend: [MineLC_CORE]
+commands:
+   minelc:
+      description: MineLC comando.
+      usage: /<command> [args]
+   vanish:
+      description: vanish.
+      usage: /<command> [args]
+      aliases: [v]
+   fly:
+      description: flay.
+      usage: /<command> [args]
+   teleport:
+      description: teleportac.
+      usage: /<command> [args]
+      aliases: [tp]
+   spawn:
+      description: spawn.
+      usage: /<command> [args]
+      aliases: [inicio, regresar]
+   ender:
+      description: ender.
+      usage: /<command> [args]
+      aliases: [end, ender]
+   winner:
+      description: win.
+      usage: /<command> [args]
+      aliases: [win, wi]
+   rachas:
+      description: rachas.
+      usage: /<command> [args]
+      aliases: [rachas, ra]
+   sban:
+      description: sban.
+      usage: /<command> [args]
+      aliases: [sban, sb]

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="MineLC_kitpvp:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/MineLC_kitpvp_jar</output-path>
+    <root id="archive" name="MineLC_kitpvp.jar">
+      <element id="module-output" name="MineLC_kitpvp" />
+    </root>
+  </artifact>
+</component>
