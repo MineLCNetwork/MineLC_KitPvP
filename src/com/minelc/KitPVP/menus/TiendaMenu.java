@@ -73,7 +73,7 @@ public class TiendaMenu {
         	if(jug.getLcoins() >= kit.getCost())
         		loreList.add(ChatColor.AQUA+"Click para comprar!");
         	else
-        		loreList.add(ChatColor.AQUA+"A�n no puedes comprar esto!");
+        		loreList.add(ChatColor.AQUA+"Aún no puedes comprar esto!");
             
             loreList.addAll(kit.getLores());
             

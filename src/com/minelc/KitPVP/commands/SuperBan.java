@@ -36,7 +36,7 @@ public class SuperBan
         } 
         if (ptp != null) {
         	String Name = ptp.getName();
-        	String ip = ptp.getAddress().getHostString();;
+        	String ip = ptp.getAddress().getHostString();
         	if(ip.equals("142.44.142.214")) {
         		p.sendMessage(ChatColor.translateAlternateColorCodes('&', "&5&lMOD> &cEste usuario entro correctamente, si quieres banearlo usa &4/ban"));
         	} else {

@@ -108,6 +108,7 @@ public class KitPVPMain extends JavaPlugin {
             getCommand("rachas").setExecutor(new Cmdrachas());
             getCommand("resettop").setExecutor(new resetTOP());
             getCommand("mytop").setExecutor(new MyTOP());
+            getCommand("clearenderchest").setExecutor(new ClearEnderchestCMD());
             allowed.addAll(getConfig().getStringList("allowed"));
             
             Bukkit.getPluginManager().registerEvents(new PlayerListener(), this);

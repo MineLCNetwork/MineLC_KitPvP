@@ -1,7 +1,7 @@
 <component name="libraryTable">
   <library name="MineLC_Core_kitpvp">
     <CLASSES>
-      <root url="jar://$USER_HOME$/Downloads/MineLC_Core_kitpvp.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../Dependencias/KitPvP/MineLC_Core_kitpvp.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

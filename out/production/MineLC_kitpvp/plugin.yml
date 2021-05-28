@@ -1,6 +1,6 @@
 name: MineLC_KitPVP
 main: com.minelc.KitPVP.KitPVPMain
-version: 1.0
+version: 1.2
 depend: [MineLC_CORE]
 commands:
    resettop:
@@ -40,3 +40,7 @@ commands:
       description: sban.
       usage: /<command> [args]
       aliases: [sban, sb]
+   clearenderchest:
+      description: Resetea el enderchest de un usuario.
+      usage: /<command> <player>
+      aliases: [clearender, cender]

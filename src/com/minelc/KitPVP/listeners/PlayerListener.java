@@ -470,45 +470,44 @@ public class PlayerListener implements Listener {
 							descuento = (price * 5) / 100;
 							price = price - descuento;
 						}
-						if(canPurchase(jug, price))
-						{
-							if(line1.contains("aspecto"))
-							    {
+						if(canPurchase(jug, price)) {
+							if(line1.contains("aspecto")) {
 								if(compraraspec(e.getPlayer(), price)) {
 									removeBalance(jug, price);
-								 }
-							}else if(line1.contains("filo")) {
+								}
+							} else if(line1.contains("filo")) {
 								if(comprarfilo(e.getPlayer(), price)) {
 									removeBalance(jug, price);
 								}
-							}else if(line1.contains("irrompibilidad")) {
-									if(comprarirrompi(e.getPlayer(), price)) {
-										removeBalance(jug, price);
-									}
-								}else if(line1.contains("espinas")) {
-									if(comprarespinas(e.getPlayer(), price)) {
-										removeBalance(jug, price);
-									}
-								}else if(line1.contains("poder")) {
-									if(comprarpoder(e.getPlayer(), price)) {
+							} else if(line1.contains("irrompibilidad")) {
+								if(comprarirrompi(e.getPlayer(), price)) {
 									removeBalance(jug, price);
-									}
-								}else if(line1.contains("proteccion")) {
+								}
+							} else if(line1.contains("espinas")) {
+								if(comprarespinas(e.getPlayer(), price)) {
+									removeBalance(jug, price);
+								}
+							} else if(line1.contains("poder")) {
+								if(comprarpoder(e.getPlayer(), price)) {
+									removeBalance(jug, price);
+								}
+							} else if(line1.contains("proteccion")) {
 								if(comprarprote(e.getPlayer(), price)) {
 									removeBalance(jug, price);
 								}
+							} else if (line1.contains("flama")) {
+								if (comprarFlameArco(e.getPlayer(), price)) {
+									removeBalance(jug, price);
+								}
 							}
-							//agregar aqui.
-						 LobbyGameController.getLobby().updateScoreboard(jug);
-				         e.getPlayer().updateInventory();
-				         e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.NOTE_PLING, 0.5f,0.5f);
+							LobbyGameController.getLobby().updateScoreboard(jug);
+							e.getPlayer().updateInventory();
+							e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.NOTE_PLING, 0.5f,0.5f);
 						} else {
-                            e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.VILLAGER_NO, 0.5f,0.5f);
-
+							e.getPlayer().playSound(e.getPlayer().getLocation(), Sound.VILLAGER_NO, 0.5f,0.5f);
                             e.getPlayer().sendMessage(ChatColor.RED+"No tienes suficientes monedas para comprar esto.");
 				         }
-					} 
-					else if(line0.contains("items")){
+					} else if(line0.contains("items")) {
 						String id = sign.getLine(1).toLowerCase();
 						String cantidad = sign.getLine(2).toLowerCase();
 						String precio = ChatColor.stripColor(sign.getLine(3).replace("$", ""));
@@ -639,6 +638,12 @@ public class PlayerListener implements Listener {
 
 		EnchantmentStorageMeta meta = (EnchantmentStorageMeta)book.getItemMeta();
 		meta.addStoredEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 1,true);
+		/* FIX 16/04/21 @ElBuenAnvita
+		 * Contar libros como un item de tienda
+		 */
+		List<String> lore = Lists.newArrayList();
+		lore.add(ChatColor.AQUA+"Item De Tienda");
+		meta.setLore(lore);
 		book.setItemMeta(meta);
 		p.setItemInHand(book);
 		p.sendMessage(ChatColor.GREEN+"Libro Comprado!");
@@ -684,6 +689,25 @@ public class PlayerListener implements Listener {
 			return true;
 		} else {
 			p.sendMessage(ChatColor.RED+"Coloca la espada en tu mano!");
+		}
+		return false;
+	}
+	// FLAME ARCO 27/05/21 ELBUENANVITA
+	public boolean comprarFlameArco(Player p, int price) {
+		if(p.getItemInHand().getType().equals(Material.BOW)) {
+			ItemStack newitem = new ItemStack(p.getItemInHand().getType());
+			newitem.addUnsafeEnchantments(p.getItemInHand().getEnchantments());
+			ItemMeta meta = newitem.getItemMeta();
+			meta.addEnchant(Enchantment.ARROW_FIRE, 1, true);
+			List<String> lore = Lists.newArrayList();
+			lore.add(ChatColor.AQUA+"Item De Tienda");
+			meta.setLore(lore);
+			newitem.setItemMeta(meta);
+			p.setItemInHand(newitem);
+			p.sendMessage(ChatColor.GREEN+"Encantamiento agregado con éxito.");
+			return true;
+		} else {
+			p.sendMessage(ChatColor.RED+"Debes tener un arco en la mano");
 		}
 		return false;
 	}
@@ -1056,7 +1080,7 @@ public boolean repararEspada(Player p, int price) {
 		Database.savePlayerSV_KITPVP(target);
 		if ((System.currentTimeMillis() - Tagged.getTime(target)) < 10000) {
 			Jugador killer = Tagged.getKiller(target);
-			if (killer != null) {
+			if (killer != null && !killer.equals(target)) {
                 killer.getBukkitPlayer().addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 20, 3, true));
 				killer.addKitPVP_Stats_kills(1);
 				killer.addMonthKillStat(1);
@@ -1134,7 +1158,7 @@ public boolean repararEspada(Player p, int price) {
 					LobbyGameController.getLobby().updateScoreboard(killer);
 					
 					killer.getBukkitPlayer().sendMessage(ChatColor.GRAY+jug.getBukkitPlayer().getName()+ChatColor.YELLOW+" fue asesinado por "+ChatColor.GRAY+killer.getBukkitPlayer().getName());
-					String deathMsg = ChatColor.DARK_GRAY+jug.getBukkitPlayer().getName() + ChatColor.DARK_GRAY+"(" +ChatColor.DARK_GRAY+ (int) jug.getBukkitPlayer().getHealth() +" �?�" +ChatColor.DARK_GRAY+")" +" se desconecto en combate!";
+					String deathMsg = ChatColor.DARK_GRAY+jug.getBukkitPlayer().getName() + ChatColor.DARK_GRAY+"(" +ChatColor.DARK_GRAY+ (int) jug.getBukkitPlayer().getHealth() +" ❤" +ChatColor.DARK_GRAY+")" +" se desconectó en combate!";
 					for(Player Online : Bukkit.getOnlinePlayers()) {
 						Online.sendMessage(deathMsg);
 					}
@@ -1229,6 +1253,8 @@ public boolean repararEspada(Player p, int price) {
 		Player player = (Player) e.getWhoClicked();
 
 		if (e.getInventory().equals(player.getEnderChest())) {
+			if (e.getOldCursor().getType() == Material.TRIPWIRE_HOOK) { return; }
+			if (e.getOldCursor().getItemMeta().getDisplayName() != null) { return; }
 			if (e.getOldCursor().getItemMeta() == null) {
 				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda. 1:1");
 				e.setCancelled(true);
@@ -1253,7 +1279,9 @@ public boolean repararEspada(Player p, int price) {
 			if (e.getCurrentItem() == null) {
 				return;
 			}
+			if (e.getCurrentItem().getType() == Material.TRIPWIRE_HOOK) { return; }
 			if (e.getCurrentItem().getItemMeta() == null) return;
+			if (e.getCurrentItem().getItemMeta().getDisplayName() != null) { return; }
 			/* if (e.getCurrentItem().getItemMeta() == null) {
 				player.sendMessage(ChatColor.RED +"No puedes almacenar en tu enderchest otros items que no sean de la tienda. 2:1");
 				e.setCancelled(true);

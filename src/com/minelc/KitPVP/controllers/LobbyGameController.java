@@ -122,14 +122,16 @@ public class LobbyGameController {
 			if(TEAMS.containsKey("progreso"+Online.getName())) {
 				TEAMS.remove("progreso"+Online.getName());
 			}
-			 if(TEAMS.containsKey("bar"+Online.getName())) {
+			if(TEAMS.containsKey("bar"+Online.getName())) {
 				TEAMS.remove("bar"+Online.getName());
 			}
+			// TEAMS.remove("username"+Online.getName());
 		}
 
-		 if(!TEAMS.containsKey("LCoins"+Online.getName())) {
+		if(!TEAMS.containsKey("LCoins"+Online.getName())) {
+			// Team refill = sb.registerNewTeam(ChatColor.YELLOW+"");
 			Team refill = sb.registerNewTeam(ChatColor.YELLOW+"");
-			refill.addEntry(ChatColor.YELLOW+"");
+			refill.addEntry("LCoins:");
 			TEAMS.put("LCoins"+Online.getName(), refill);
 		}
 		if(!TEAMS.containsKey("kills"+Online.getName())) {
@@ -167,6 +169,11 @@ public class LobbyGameController {
 			jugadores.addEntry(ChatColor.AQUA + "");
 			TEAMS.put("bar"+Online.getName(), jugadores);
 		}
+		/* if(!TEAMS.containsKey("username"+Online.getName())) {
+			Team username = sb.registerNewTeam("username");
+			username.addEntry("Usuario:");
+			TEAMS.put("username"+Online.getName(), username);
+		} */
 		Objective objHealth = sb.getObjective("ShowHealth");
 		
 		if(objHealth == null) {
@@ -186,9 +193,10 @@ public class LobbyGameController {
 			objGame.setDisplayName(ChatColor.RED+""+ChatColor.BOLD+"KitPvP");
 			
 			//LCoins
-			objGame.getScore("            ").setScore(15);
-			objGame.getScore("LCoins").setScore(14);
-			objGame.getScore(ChatColor.YELLOW+"").setScore(13);
+			objGame.getScore(ChatColor.translateAlternateColorCodes('&', "&7&m---------------")).setScore(15);
+			// objGame.getScore("Usuario:").setScore(14);
+			objGame.getScore("LCoins:").setScore(13);
+			// objGame.getScore(ChatColor.YELLOW+"").setScore(13);
 			//Asesinatos
 			objGame.getScore("  ").setScore(12);
 			objGame.getScore("Nivel:").setScore(11);
@@ -198,22 +206,23 @@ public class LobbyGameController {
 			objGame.getScore("   ").setScore(8);
 			objGame.getScore("Kills:").setScore(7);
 			objGame.getScore("Muertes:").setScore(6);
-			objGame.getScore("KDR:").setScore(5);
-			objGame.getScore("       ").setScore(4);
-			objGame.getScore("Jugadores:").setScore(3);
-			objGame.getScore("    ").setScore(2);
-			objGame.getScore(ChatColor.translateAlternateColorCodes('&', "&eplay.minelc.net")).setScore(1);
-
+			// objGame.getScore("KDR:").setScore(5);
+			objGame.getScore("       ").setScore(5);
+			objGame.getScore("Jugadores:").setScore(4);
+			objGame.getScore(ChatColor.translateAlternateColorCodes('&', "&8» &eplay.minelc.net")).setScore(3);
+			objGame.getScore(ChatColor.translateAlternateColorCodes('&', "&7&m----------------")).setScore(2);
 		}
-		 TEAMS.get("LCoins"+Online.getName()).setPrefix(ChatColor.GOLD+""+jugOnline.getLcoins() + " ⛁");
+		// TEAMS.get("LCoins"+Online.getName()).setPrefix(ChatColor.GOLD+" "+jugOnline.getLcoins() + " ⛁");
+		TEAMS.get("LCoins"+Online.getName()).setSuffix(ChatColor.GOLD+" "+jugOnline.getLcoins() + " ⛁");
 		TEAMS.get("kills"+Online.getName()).setSuffix(ChatColor.GREEN+" "+jugOnline.getKitPVP_Stats_kills());
-		TEAMS.get("jugadores"+Online.getName()).setSuffix(ChatColor.GREEN+" "+ Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers());
+		TEAMS.get("jugadores"+Online.getName()).setSuffix(ChatColor.GREEN+" "+ Bukkit.getOnlinePlayers().size() + ChatColor.GRAY + "/" + ChatColor.GREEN + Bukkit.getMaxPlayers());
 
-		TEAMS.get("muertes"+Online.getName()).setSuffix(ChatColor.GREEN+" "+jugOnline.getKitPVP_Stats_deaths());
+		TEAMS.get("muertes"+Online.getName()).setSuffix(ChatColor.RED+" "+jugOnline.getKitPVP_Stats_deaths());
 		TEAMS.get("kdr"+Online.getName()).setSuffix(ChatColor.GREEN+" "+jugOnline.getKitPVP_Stats_kdr());
-		TEAMS.get("nivel"+Online.getName()).setSuffix(ChatColor.GRAY+" "+ (jugOnline.getKitPVP_Stats_Level()));
+		TEAMS.get("nivel"+Online.getName()).setSuffix(ChatColor.LIGHT_PURPLE+" "+ (jugOnline.getKitPVP_Stats_Level()));
 
 		TEAMS.get("bar"+Online.getName()).setSuffix(getProgreso(jugOnline));
+		// TEAMS.get("username"+Online.getName()).setSuffix(ChatColor.GRAY + " " + jugOnline.getBukkitPlayer().getName());
 
 		int stats_level = jugOnline.getKitPVP_Stats_Level();
 		int nex_kills =  (stats_level + 1) * 20;
